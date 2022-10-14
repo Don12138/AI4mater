@@ -6,7 +6,7 @@ from sklearn.externals import joblib
 import numpy as np
 import sys
 import pymysql
-import time
+import time     
 
 connection = pymysql.connect(
     host = "58.199.168.36",
