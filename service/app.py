@@ -2,19 +2,17 @@
 import re
 from flask import Flask, request, jsonify, make_response
 from flask_restplus import Api, Resource, fields
-from sklearn.externals import joblib
-import numpy as np
 import sys
 import pymysql
 import time     
 
-connection = pymysql.connect(
-    host = "58.199.168.36",
-    user = "root",
-    password="114986550cld",
-    db="AI4mater"
-)
-cursor = connection.cursor()
+# connection = pymysql.connect(
+#     host = "58.199.168.36",
+#     user = "root",
+#     password="114986550cld",
+#     db="AI4mater"
+# )
+# cursor = connection.cursor()
 
 
 
@@ -40,7 +38,6 @@ model = app.model('Prediction params',
 				  							description="Petal Width", 
     					  				 	help="Petal Width cannot be blank")})
 
-classifier = joblib.load('classifier.joblib')
 
 @name_space.route("/")
 class MainClass(Resource):
@@ -57,7 +54,7 @@ class MainClass(Resource):
 		try: 
 			formData = request.json
 			data = [val for val in formData.values()]
-			prediction = classifier.predict(np.array(data).reshape(1, -1))
+			prediction = ""
 			types = { 0: "Iris Setosa", 1: "Iris Versicolour ", 2: "Iris Virginica"}
 			response = jsonify({
 				"statusCode": 200,
@@ -72,6 +69,9 @@ class MainClass(Resource):
 				"status": "Could not make prediction",
 				"error": str(error)
 			})
+@flask_app.route('/index',methods=['GET'])
+def index():
+	return "HelloWorld"
 
 @flask_app.route('/get_pre_30_min',methods=['GET'])
 def get_pre_30_min():
